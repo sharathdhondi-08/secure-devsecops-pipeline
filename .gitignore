@@ -1,0 +1,12 @@
+# Exclude localized system sandbox credentials
+.env
+
+# Exclude python build garbage and compilation cache assets
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/

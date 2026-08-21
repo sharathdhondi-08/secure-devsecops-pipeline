@@ -1,0 +1,35 @@
+name: Secure DevSecOps Deployment Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-and-execution-audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Active Source Repository Baseline
+        uses: actions/checkout@v4
+
+      - name: Provision Enterprise Python Run Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Resolve Project Dependencies Securely
+        run: |
+          pip install -r app/src/requirements.txt
+
+      - name: Execute Core Application via Managed Automated Injection
+        # THE CORE DEVSECOPS LINKING LAYER:
+        # We explicitly map GitHub's encrypted secret assets straight to system environment variables
+        env:
+          DB_URL: ${{ secrets.PROD_DB_URL }}
+          API_KEY: ${{ secrets.PROD_API_KEY }}
+        run: |
+          python app/src/main.py
+
