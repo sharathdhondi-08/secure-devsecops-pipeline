@@ -32,12 +32,16 @@ jobs:
           python app/src/main.py
 
       # ==============================================================================
-      # NEW ENTERPRISE AUTOMATION STEP: RUNNING THE ANSIBLE PLAYBOOK
+      # FIXED ENTERPRISE AUTOMATION STEP: ADDING THE CORRECT WORKING DIRECTORY PATH
       # ==============================================================================
       - name: Execute System Hardening Blueprint via Ansible Playbook
-        # We inject the high-security credential directly out of the vault into RAM
         env:
           DB_PASSWORD: ${{ secrets.PROD_DB_URL }} 
+        # Using working-directory forces GitHub to move into the ansible folder before executing
+        defaults:
+          run:
+            working-directory: ./ansible
         run: |
-          ansible-playbook -i ansible/inventory.ini ansible/site-hardening.yml
+          ansible-playbook -i inventory.ini site-hardening.yml
+
 
