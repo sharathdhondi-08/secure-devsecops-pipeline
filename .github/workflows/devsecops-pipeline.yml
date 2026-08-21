@@ -32,16 +32,12 @@ jobs:
           python app/src/main.py
 
       # ==============================================================================
-      # FIXED ENTERPRISE AUTOMATION STEP: ADDING THE CORRECT WORKING DIRECTORY PATH
+      # CRITICAL REPAIR FIX: PRECISE ENTERPRISE LEVEL FOLDER DRIFTING
       # ==============================================================================
       - name: Execute System Hardening Blueprint via Ansible Playbook
         env:
           DB_PASSWORD: ${{ secrets.PROD_DB_URL }} 
-        # Using working-directory forces GitHub to move into the ansible folder before executing
-        defaults:
-          run:
-            working-directory: ./ansible
+        # We use explicit step-level environment navigation variables to guarantee paths
         run: |
+          cd ansible
           ansible-playbook -i inventory.ini site-hardening.yml
-
-
