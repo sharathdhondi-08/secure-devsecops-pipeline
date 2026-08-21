@@ -10,3 +10,9 @@ __pycache__/
 env/
 venv/
 .venv/
+
+# Exclude local terraform environment caches and binary plugins
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
