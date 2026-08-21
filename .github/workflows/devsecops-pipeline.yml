@@ -25,11 +25,19 @@ jobs:
           pip install -r app/src/requirements.txt
 
       - name: Execute Core Application via Managed Automated Injection
-        # THE CORE DEVSECOPS LINKING LAYER:
-        # We explicitly map GitHub's encrypted secret assets straight to system environment variables
         env:
           DB_URL: ${{ secrets.PROD_DB_URL }}
           API_KEY: ${{ secrets.PROD_API_KEY }}
         run: |
           python app/src/main.py
+
+      # ==============================================================================
+      # NEW ENTERPRISE AUTOMATION STEP: RUNNING THE ANSIBLE PLAYBOOK
+      # ==============================================================================
+      - name: Execute System Hardening Blueprint via Ansible Playbook
+        # We inject the high-security credential directly out of the vault into RAM
+        env:
+          DB_PASSWORD: ${{ secrets.PROD_DB_URL }} 
+        run: |
+          ansible-playbook -i ansible/inventory.ini ansible/site-hardening.yml
 
