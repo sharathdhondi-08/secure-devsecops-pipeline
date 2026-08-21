@@ -1,5 +1,4 @@
 name: Secure DevSecOps Deployment Pipeline
-
 on:
   push:
     branches: [ main ]
@@ -17,7 +16,7 @@ jobs:
       - name: Provision Enterprise Python Run Environment
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: 'pip'
 
       - name: Resolve Project Dependencies Securely
@@ -32,12 +31,12 @@ jobs:
           python app/src/main.py
 
       # ==============================================================================
-      # CRITICAL REPAIR FIX: PRECISE ENTERPRISE LEVEL FOLDER DRIFTING
+      # CONFIGURATION MANAGEMENT ENGINE LAYER (ANSIBLE RUNNER FIXED)
       # ==============================================================================
       - name: Execute System Hardening Blueprint via Ansible Playbook
         env:
           DB_PASSWORD: ${{ secrets.PROD_DB_URL }} 
-        # We use explicit step-level environment navigation variables to guarantee paths
         run: |
+          # FIX: We step into the directory and point to the files directly inside it
           cd ansible
           ansible-playbook -i inventory.ini site-hardening.yml
